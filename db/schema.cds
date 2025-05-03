@@ -92,8 +92,10 @@ entity Status : CodeList {
     key code : String(20) enum {
             InStock         = 'In Stock';
             OutOfStock      = 'Out of Stock';
-            PreOrder = 'Preorder';
-        }
+            LowAvailability = 'Low Availability';
+        };
+
+        criticality : Integer;
 }
 
 

@@ -1,0 +1,5 @@
+ID,supplier,supplierName,webAddress,contact_ID
+77432ff7-edcd-416e-9360-a39fc5e41cf9,00000001,Apple,https://apple.com,5bef405b-7362-4254-a7d1-b99895a0183e
+ae0ce496-6ff5-4353-9086-c1ba629a6aa5,00000002,B&h,https://bandh.com,83dea7e8-cb65-43bf-bc48-314f1e58e079
+de33aa34-0399-48e8-a768-d056c04fa6a7,00000003,Electrotech,https://electrotech.com,64804cc3-9552-4c5d-bfc1-2fbb58fb6ed6
+2f449eee-f751-4c05-8f1c-d772b0ab8306,00000004,RadioHat,https://radiohat.com,5085089c-5236-4fd9-af91-aa85947b292b
