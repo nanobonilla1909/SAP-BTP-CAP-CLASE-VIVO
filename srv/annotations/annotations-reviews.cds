@@ -2,7 +2,8 @@ using {ServicioProductos as service} from '../service';
 
 annotate service.Reviews with {
     rating     @title : 'Rating';
-    Date        @title : 'Date';
+    date        @title : 'Date';
+    user        @title : 'User';
     reviewText  @title : 'Review Text';
 
 
@@ -10,5 +11,35 @@ annotate service.Reviews with {
 
 annotate service.Reviews with @(
 
-
+    UI.LineItem : [
+        
+        {
+            $Type : 'UI.DataFieldForAnnotation',
+            Target : '@UI.DataPoint',
+            Label : 'Rating',
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem'
+            },
+        },
+       
+     
+        {
+            $Type: 'UI.DataField',
+            Value: date
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: user
+        },
+        {
+            $Type: 'UI.DataField',
+            Value: reviewText
+        },
+    ],
+     UI.DataPoint  : {
+        $Type : 'UI.DataPointType',
+        Value : rating,
+        Visualization : #Rating
+    }
 );

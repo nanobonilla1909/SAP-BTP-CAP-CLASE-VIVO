@@ -1,6 +1,9 @@
+
 using {ServicioProductos as service} from '../service';
 using from './annotations-suppliers';
+using from './annotations-reviews';
 using from './annotations-product-details';
+
 
 annotate service.Products with {
 
@@ -266,6 +269,11 @@ UI.LineItem: [
             $Type : 'UI.ReferenceFacet',
             Target : 'detail/@UI.FieldGroup#ProductDetail',
             Label : 'Product Information'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : 'toReviews/@UI.LineItem',
+            Label : 'Reviews'
         }
         
     ]

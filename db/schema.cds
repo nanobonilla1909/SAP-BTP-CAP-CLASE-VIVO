@@ -60,7 +60,8 @@ entity Contacts : cuid {
 entity Reviews : cuid {
 
     rating     : Decimal(3, 2);
-    Date       : Date;
+    date       : Date;
+    user       : String(20);
     reviewText : LargeString;
     product    : Association to Products;
 }
