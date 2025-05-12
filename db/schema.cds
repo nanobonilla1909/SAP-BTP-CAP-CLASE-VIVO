@@ -3,7 +3,8 @@ namespace products_clase.db;
 using {
     cuid,
     managed,
-    sap.common.CodeList
+    sap.common.CodeList,
+    sap.common.Currencies
 } from '@sap/cds/common';
 
 
@@ -11,18 +12,20 @@ entity Products : cuid, managed {
 
     product       : String(8);
     productName   : String(80);
+    image         : LargeBinary  @Core.MediaType: imageType @UI.IsImage;
+    imageType     : String       @Core.IsMediaType;
     description   : LargeString;
     category      : Association to Categories;
     subCategory   : Association to SubCategories;
     availability  : Association to Status;
     rating        : Decimal(3, 2);
     price         : Decimal(5, 2);
-    currency      : String;
-    detail        : Association to ProductDetails;
+    currency      : Association to Currencies;     // currency_code
+    detail        : Composition of  ProductDetails;
     supplier      : Association to Suppliers;
     toReviews     : Association to many Reviews
                         on toReviews.product = $self;
-    toInventories : Association to many Inventories
+    toInventories : Composition of  many Inventories
                         on toInventories.product = $self;
     toSales       : Association to many Sales
                         on toSales.product = $self;
@@ -70,8 +73,8 @@ entity Inventories : cuid {
 
     stockNumber : String(9);
     department  : Association to Departments;
-    min         : Integer;
-    max         : Integer;
+    min         : Integer default 0;
+    max         : Integer default 500;
     target      : Integer;
     quantity    : Decimal(4, 3);
     baseUnit    : String default 'EA';
@@ -81,6 +84,7 @@ entity Inventories : cuid {
 
 entity Sales : cuid {
 
+    monthCode     : String(2);
     month         : String(20);
     year          : String(4);
     quantitySales : Integer;

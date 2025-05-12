@@ -1,9 +1,9 @@
 using {ServicioProductos as service} from '../service';
 
 annotate service.Contacts with {
-    fullName     @title : 'Full Name';
-    eMail        @title : 'eMail';
-    phoneNumber  @title : 'Phone Number';
+    fullName     @title : 'Full Name' @Common.FieldControl: #ReadOnly;
+    eMail        @title : 'eMail' @Common.FieldControl: #ReadOnly;
+    phoneNumber  @title : 'Phone Number'@Common.FieldControl: #ReadOnly;
 
 
 };

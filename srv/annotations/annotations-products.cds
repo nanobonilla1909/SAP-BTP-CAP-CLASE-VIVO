@@ -2,21 +2,26 @@
 using {ServicioProductos as service} from '../service';
 using from './annotations-suppliers';
 using from './annotations-reviews';
+using from './annotations-inventories';
+using from './annotations-sales';
 using from './annotations-product-details';
+
+annotate service.Products with @odata.draft.enabled;
 
 
 annotate service.Products with {
 
     product      @title: 'Product';
     productName  @title: 'Product Name';
+    description  @title: 'Description' @UI.MultiLineText;
     category     @title: 'Category';
     subCategory  @title: 'SubCategory';
     availability @title: 'Availability';
     supplier     @title: 'Supplier';
     rating       @title: 'Rating';
-    price        @title: 'Price' @Measures.ISOCurrency: currency;
+    price        @title: 'Price' @Measures.ISOCurrency: currency_code;
     currency @Common.IsCurrency: true;
-
+    image       @title            : 'Image';
 }
 
 
@@ -98,6 +103,29 @@ annotate service.Products with @(
 //     ]
 // },
 
+Common.SideEffects  : {
+        $Type : 'Common.SideEffectsType',
+        SourceProperties : [
+            supplier_ID
+        ],
+        TargetEntities : [
+            supplier
+        ],
+    },
+
+
+Capabilities.FilterRestrictions: {
+        $Type : 'Capabilities.FilterRestrictionsType',
+        FilterExpressionRestrictions : [
+            {
+                $Type : 'Capabilities.FilterExpressionRestrictionType',
+                Property : product,
+                AllowedExpressions : 'SearchExpression'
+            }
+        ]
+    },
+
+
 
 UI.SelectionFields : [
     product,
@@ -124,6 +152,14 @@ UI.HeaderInfo :{
 },
 
 UI.LineItem: [
+     {
+            $Type : 'UI.DataField',
+            Value : image,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem'
+            }
+    },
     {
         $Type: 'UI.DataField',
         Value: product,
@@ -168,6 +204,17 @@ UI.LineItem: [
         Value:rating
     },
 
+    UI.FieldGroup #Image: {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : image,
+                Label : ''
+            }
+        ],
+    },
+
     UI.FieldGroup #HeaderA :{
         $Type : 'UI.FieldGroupType',
         Data : [
@@ -203,7 +250,15 @@ UI.LineItem: [
                 $Type : 'UI.DataField',
                 Value : availability_code,
                 Criticality : availability.criticality,
-                Label : ''
+                Label : '',
+                ![@Common.FieldControl]: {$edmJson: {$If: [
+                {$Eq: [
+                    {$Path: 'IsActiveEntity'},
+                    false
+                ]},
+                1,
+                3
+            ]}}
             },
         ]
     },
@@ -220,7 +275,11 @@ UI.LineItem: [
     },
 
     UI.HeaderFacets : [
-
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#Image',
+            ID : 'Image'
+        },
         {
             $Type : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#HeaderA',
@@ -274,6 +333,18 @@ UI.LineItem: [
             $Type : 'UI.ReferenceFacet',
             Target : 'toReviews/@UI.LineItem',
             Label : 'Reviews'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : 'toInventories/@UI.LineItem',
+            Label : 'Inventory Information',
+            ID : 'toInventories'
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Target : 'toSales/@UI.Chart',
+            Label : 'Sales',
+            ID : 'toSales'
         }
         
     ]

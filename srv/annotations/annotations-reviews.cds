@@ -11,6 +11,20 @@ annotate service.Reviews with {
 
 annotate service.Reviews with @(
 
+ UI.HeaderInfo         : {
+        $Type         : 'UI.HeaderInfoType',
+        TypeName      : 'Review',
+        TypeNamePlural: 'Reviews',
+        Title         : {
+            $Type: 'UI.DataField',
+            Value: product.productName
+        },
+        Description   : {
+            $Type: 'UI.DataField',
+            Value: product.product
+        }
+    },
+
     UI.LineItem : [
         
         {
@@ -41,5 +55,37 @@ annotate service.Reviews with @(
         $Type : 'UI.DataPointType',
         Value : rating,
         Visualization : #Rating
-    }
+    },
+
+     UI.FieldGroup #Reviews: {
+        $Type: 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type: 'UI.DataField',
+                Value: rating,
+                Label: 'Rating'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: date,
+                Label: 'Date'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: user,
+                Label: 'User'
+            },
+            {
+                $Type: 'UI.DataField',
+                Value: reviewText,
+                Label: 'Review Text'
+            }
+        ],
+    },
+    UI.Facets             : [{
+        $Type : 'UI.ReferenceFacet',
+        Target: '@UI.FieldGroup#Reviews',
+        Label : 'Reviews',
+        ID    : 'Reviews'
+    }],
 );
